@@ -1,0 +1,31 @@
+// KQL Observability & Security Baseline Query Pack
+// Scope: Azure Monitor, Log Analytics, Azure Activity, and AKS ContainerLog
+
+// 1. Ingestion Volume by Table / Data Type (Last 24 Hours)
+Usage
+| where TimeGenerated > ago(24h)
+| where IsBillable == true
+| summarize IngestedGB = sum(Quantity) / 1024 by DataType
+| sort by IngestedGB desc
+
+// 2. Administrative Activity Logs - Write & Delete Operations
+AzureActivity
+| where TimeGenerated > ago(7d)
+| where OperationNameValue has "write" or OperationNameValue has "delete"
+| where ActivityStatusValue == "Success"
+| project TimeGenerated, Caller, CallerIpAddress, OperationNameValue, ResourceGroup, SubscriptionId
+| sort by TimeGenerated desc
+
+// 3. AKS Container Restarts / CrashLoopBackOff Detection
+KubePodInventory
+| where TimeGenerated > ago(1h)
+| where PodStatus == "Failed" or ContainerStatusReason in ("CrashLoopBackOff", "OOMKilled")
+| summarize RestartCount = max(ContainerRestartCount) by Namespace, Name, ContainerStatusReason, bin(TimeGenerated, 5m)
+| sort by RestartCount desc
+
+// 4. Azure Key Vault Unauthorized Access (401 / 403 HTTP Responses)
+AzureDiagnostics
+| where ResourceProvider == "MICROSOFT.KEYVAULT"
+| where httpStatusCode_d in (401, 403)
+| project TimeGenerated, OperationName, CallerIPAddress, ResultSignature, requestUri_s
+| sort by TimeGenerated desc
