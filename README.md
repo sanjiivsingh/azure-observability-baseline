@@ -1,10 +1,13 @@
-# Azure Observability Baseline (Terraform)
+# 📊 Azure Observability Baseline (Terraform)
 
-[![Status](https://img.shields.io/badge/Status-Statically%20Validated-informational.svg)](#)
-[![Terraform CI](https://github.com/sanjiivsingh/azure-observability-baseline/actions/workflows/ci.yml/badge.svg)](https://github.com/sanjiivsingh/azure-observability-baseline/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Terraform 1.9+](https://img.shields.io/badge/Terraform-1.9+-844FBA?style=for-the-badge&logo=terraform&logoColor=white)](https://www.terraform.io/)
+[![Azure Provider v4+](https://img.shields.io/badge/AzureRM-v4.0+-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)](https://registry.terraform.io/providers/hashicorp/azurerm/latest)
+[![CI/CD Validation](https://github.com/sanjiivsingh/azure-observability-baseline/actions/workflows/ci.yml/badge.svg)](https://github.com/sanjiivsingh/azure-observability-baseline/actions)
+[![Status: Statically Validated](https://img.shields.io/badge/Status-Observability_--_Statically_Validated-10B981?style=for-the-badge)](https://github.com/sanjiivsingh/azure-observability-baseline)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-Production-ready Terraform module for centralizing Azure telemetry: Log Analytics workspace, automated daily ingestion cap alerts, reusable diagnostic settings, and curated KQL query packs.
+> **Reference Architecture · Statically Validated**  
+> Enterprise-grade Terraform module for centralizing Azure telemetry: Log Analytics workspace, automated daily ingestion cap alerts, reusable diagnostic settings, and curated KQL query packs. Detailed verification logs are documented in [docs/EVIDENCE.md](docs/EVIDENCE.md) and architectural patterns in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ---
 
@@ -12,14 +15,14 @@ Production-ready Terraform module for centralizing Azure telemetry: Log Analytic
 
 ```mermaid
 flowchart TD
-    subgraph LandingZones["🏢 Workloads & Landing Zones"]
+    subgraph LandingZones["Workloads & Landing Zones"]
         AKS["Azure Kubernetes Service"]
         APIM["API Management"]
         FW["Azure Firewall"]
         KV["Azure Key Vault"]
     end
 
-    subgraph CentralObs["📊 Observability Platform"]
+    subgraph CentralObs["Observability Platform"]
         DS["Diagnostic Settings Module"]
         LAW["Central Log Analytics Workspace (30-day retention)"]
         CAP["Daily Cap & Ingestion Monitor"]
@@ -60,6 +63,8 @@ git clone https://github.com/sanjiivsingh/azure-observability-baseline.git
 cd azure-observability-baseline
 
 terraform init
+terraform fmt -check
+terraform validate
 terraform plan -out=tfplan
 terraform apply tfplan
 ```
@@ -76,5 +81,15 @@ terraform apply tfplan
 
 ---
 
-## 🔒 Security & Support
-See [SECURITY.md](SECURITY.md) and [ARCHITECTURE.md](docs/ARCHITECTURE.md).
+## 👨‍💻 Author & Cloud Consultant
+
+**Sanjeev Singh**  
+Senior Azure Cloud Architect & DevSecOps Platform Engineer  
+* 🌐 **Portfolio**: [sanjeevsingh.oneps.in](https://sanjeevsingh.oneps.in)  
+* 💼 **LinkedIn**: [linkedin.com/in/sanjiivsingh](https://linkedin.com/in/sanjiivsingh)  
+* 🐙 **GitHub**: [github.com/sanjiivsingh](https://github.com/sanjiivsingh)
+
+---
+
+## 📄 License
+This project is open-source under the [MIT License](LICENSE).
